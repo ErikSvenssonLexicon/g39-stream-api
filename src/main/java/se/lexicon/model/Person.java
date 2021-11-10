@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Person implements Serializable {
+public class Person implements Serializable, Comparable<Person> {
     private int personId;
     private String firstName;
     private String lastName;
@@ -68,5 +68,10 @@ public class Person implements Serializable {
         sb.append(", gender=").append(gender);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public int compareTo(Person o) {
+        return personId - o.getPersonId();
     }
 }

@@ -35,7 +35,7 @@ public class App
         Map<Boolean, List<Person>> booleanListMap = examples.toMapBoolean();
         booleanListMap.get(false).forEach(System.out::println);
 
-         */
+
 
         System.out.println(examples.findById(9999));
         System.out.println();
@@ -47,6 +47,10 @@ public class App
 
         examples.findAndConvert(Gender.MALE)
                 .forEach(System.out::println);
+
+         */
+
+        examples.getSortedCollection().forEach(System.out::println);
 
     }
 }

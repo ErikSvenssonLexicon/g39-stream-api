@@ -115,5 +115,16 @@ public class Examples {
         return new PersonDto(person.getPersonId(), person.getFirstName() + " " + person.getLastName());
     }
 
+    public List<Person> getSortedCollection(){
+        return people.stream()
+                .sorted(
+                        Comparator.comparing(Person::getLastName)
+                                .thenComparing(Person::getFirstName)
+                                .thenComparing(Person::getDateOfBirth)
+                                .thenComparingInt(Person::getPersonId)
+                )
+                .collect(Collectors.toList());
+    }
+
 
 }
