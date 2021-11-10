@@ -18,4 +18,11 @@ public class PersonDto {
         return fullName;
     }
 
+    @Override
+    public String toString() {
+        return "PersonDto{" +
+                "personId=" + personId +
+                ", fullName='" + fullName + '\'' +
+                '}';
+    }
 }

@@ -2,10 +2,13 @@ package se.lexicon;
 
 import se.lexicon.model.Gender;
 import se.lexicon.model.Person;
+import se.lexicon.model.PersonDto;
 import se.lexicon.service.People;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Examples {
 
@@ -77,6 +80,39 @@ public class Examples {
     public Map<Boolean, List<Person>> toMapBoolean(){
         return people.stream()
                 .collect(Collectors.partitioningBy(person -> person.getGender().equals(Gender.FEMALE)));
+    }
+
+    public Person findById(int id){
+        return people.stream()
+                .filter(person -> person.getPersonId() == id) //Intermediary
+                .findFirst() //Terminal operation
+                .orElseThrow(() -> new RuntimeException("Person with id " + id + " could not be found"));
+    }
+
+    public List<Person> findByLastName(final String lastName){
+        return people.stream()
+                .filter(person -> person.getLastName().equalsIgnoreCase(lastName))
+                .collect(Collectors.toList());
+    }
+
+    public List<PersonDto> findAndConvert(Gender gender){
+        return people.stream()
+                .filter(person -> person.getGender().equals(gender))
+                //.map(person -> new PersonDto(person.getPersonId(), person.getFirstName() + " " + person.getLastName()))
+                .map(this::convert)
+                .collect(Collectors.toList());
+    }
+
+    public LocalDate[] createCalendarYear(int year){
+        LocalDate seed = LocalDate.ofYearDay(year, 1);
+        return Stream.iterate(seed, date -> date.plusDays(1))
+                .limit(seed.isLeapYear() ? 366 : 365)
+                .toArray(LocalDate[]::new);
+    }
+
+    public PersonDto convert(Person person){
+        if(person == null) return null;
+        return new PersonDto(person.getPersonId(), person.getFirstName() + " " + person.getLastName());
     }
 
 
